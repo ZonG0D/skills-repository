@@ -1,2 +1,4 @@
-# Skill: Orchestration
-## Description: Advanced task decomposition.
+# Skill: orchestration
+## Capabilities
+- Task decomposition via DAG.
+- Contextual execution loop.

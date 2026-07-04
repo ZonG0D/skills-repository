@@ -1,2 +1,3 @@
-# Skill: Provisioning
-## Description: Environment setup.
+# Skill: provisioning
+## Capabilities
+- Setup Termux environment and `.bashrc` optimization.

@@ -1,21 +1,17 @@
 #!/bin/bash
 set -e
-REPO=$1
-[ -z "$REPO" ] && echo "Error: No repository URL provided." && exit 1
+echo "[INIT] Reconstructing ZoneG0D Intelligence Package..."
+git clone --depth 1 https://github.com/ZonG0D/skills-repository.git /tmp/agent_setup || true
+cd /tmp/agent_setup
 
-echo "[INIT] Cloning and provisioning via Machine Manifest..."
-TEMP=$(mktemp -d)
-git clone --depth 1 "$REPO" "$TEMP" > /dev/null 2>&1
+# Ensure executable permissions
+chmod +x setup.sh skills/resource-watchdog/monitor.sh 2>/dev/null || true
 
-# Install runtime logic to user home for persistence
-mkdir -p ~/agent_core/lib
-cp $TEMP/skills/resource-watchdog/monitor.sh ~/agent_core/monitor.sh 2>/dev/null || true
-cp $TEMP/skills/agent-orchestrator/SKILL.md ~/agent_core/capabilities.txt 2>/dev/null || true
+# Setup local environment variables
+echo 'export PATH="$HOME/agent_bin:$PATH"' >> ~/.bashrc
+mkdir -p ~/agent_bin
 
-# Setup shell profile logic (idempotent)
-if ! grep -q "AGENT_CORE" ~/.bashrc; then
-    echo 'export AGENT_WORKDIR="$HOME/agent_core"' >> ~/.bashrc
-    echo 'alias agent-start="~/agent_core/monitor.sh &"' >> ~/.bashrc
-fi
+cp runtime/lib/orchestrator.py $HOME/agent_core_exec.py
+alias am-run='python3 $HOME/agent_core_exec.py'
 
-echo "[DONE] Provisioning complete. Agent runtime active in \$AGENT_WORKDIR."
+echo "[SUCCESS] Environment Ready. Usage: 'am-run'"
