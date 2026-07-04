@@ -1,0 +1,20 @@
+{
+  "name": "ZonG0D_Agent_Core",
+  "version": "3.0.0-production",
+  "description": "A mission-critical, high-autonomy deployment package.",
+  "capabilities": {
+    "orchestration": {
+      "module": "agent-orchestrator",
+      "type": "logic"
+    },
+    "provisioning": {
+      "module": "system-provisioning",
+      "type": "setup"
+    },
+    "monitoring": {
+      "module": "resource-watchdog",
+      "type": "telemetry"
+    }
+  },
+  "bootstrap_command": "bash ./setup.sh https://github.com/ZonG0D/skills-repository.git"
+}
